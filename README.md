@@ -5,7 +5,7 @@
 
 - Java Jre 8
 - Java JDK 17
-- MYsql
+- MySql 8.0.21
 - Git
 - Intellij IDE (Para uso com a parte de back end)
 - Vs Code IDE (Se desejar usar na parte de front end. Caso contrário, o intelijj pode ser usado também)
