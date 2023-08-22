@@ -2,12 +2,11 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 import java.util.List;
 import java.util.Optional;
-
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
 
@@ -20,11 +19,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    @Transactional
     public User createUser(User user) {
-
         return userRepository.save(user);
     }
 
+    @Transactional
     public User updateUser(Long userId, User user) {
         Optional<User> existingUserOptional = userRepository.findById(userId);
 
@@ -36,6 +36,7 @@ public class UserService {
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found in DB"));
     }
 
+    @Transactional
     public void deleteUser(Long userId) {
             userRepository.findById(userId).map(userFind -> {
                 userRepository.delete(userFind);
