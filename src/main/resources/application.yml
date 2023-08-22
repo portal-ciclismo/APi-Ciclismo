@@ -1,1 +1,12 @@
-
+spring:
+  profiles:
+    active:
+      - test
+  datasource:
+    url: jdbc:h2:mem:dbCiclismo
+    username: projetoCiclismo
+    password:
+    driverClassName: org.h2.Driver
+  jpa:
+    hibernate:
+      database-platform: org.hibernate.dialect.H2Dialect
