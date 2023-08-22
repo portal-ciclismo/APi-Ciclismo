@@ -21,35 +21,31 @@ public class UserService {
     }
 
     public User createUser(User user) {
-     
+
         return userRepository.save(user);
     }
 
     public User updateUser(Long userId, User user) {
-        Optional<User> existingUserOptional = userRepository.findById(userId).map(userFind ->{
-        
-        
-            User existingUser = existingUserOptional.get();
-            
+        Optional<User> existingUserOptional = userRepository.findById(userId);
+
+        return existingUserOptional.map(existingUser -> {
             existingUser.setName(user.getName());
             existingUser.setEmail(user.getEmail());
             existingUser.setPassword(user.getPassword());
-            
             return userRepository.save(existingUser);
-
-            }.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not Find in DB"));
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found in DB"));
     }
 
     public void deleteUser(Long userId) {
             userRepository.findById(userId).map(userFind -> {
-            userRepository.delete(userFind);
-            return userFind;
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not Find in DB"));
+                userRepository.delete(userFind);
+                return userFind;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not Find in DB"));
     }
 
     public User getUserById(Long userId) {
-         return userRepository.findById(userId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not Find in DB"));
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not Find in DB"));
     }
 
     public List<User> getAllUsers() {
