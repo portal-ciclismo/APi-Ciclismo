@@ -1,7 +1,15 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
+import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
 
 @Service
 public class UserService {
@@ -18,34 +26,30 @@ public class UserService {
     }
 
     public User updateUser(Long userId, User user) {
-        Optional<User> existingUserOptional = userRepository.findById(userId);
-        if (existingUserOptional.isPresent()) {
+        Optional<User> existingUserOptional = userRepository.findById(userId).map(userFind ->{
+        
+        
             User existingUser = existingUserOptional.get();
             
-            // Atualizar os campos necessários do usuário existente com os valores do novo usuário
-            existingUser.setUsername(user.getUsername());
+            existingUser.setName(user.getName());
             existingUser.setEmail(user.getEmail());
-            existingUser.setFullName(user.getFullName());
+            existingUser.setPassword(user.getPassword());
             
             return userRepository.save(existingUser);
-        } else {
-            throw new UserNotFoundException("User not found with ID: " + userId);
-        }
+
+            }.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not Find in DB"));
     }
 
     public void deleteUser(Long userId) {
-        // Verificar se o usuário com o ID fornecido existe no banco de dados
-        Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
-            userRepository.deleteById(userId);
-        } else {
-            throw new UserNotFoundException("User not found with ID: " + userId);
-        }
+            userRepository.findById(userId).map(userFind -> {
+            userRepository.delete(userFind);
+            return userFind;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not Find in DB"));
     }
 
     public User getUserById(Long userId) {
          return userRepository.findById(userId)
-            .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User not Find in DB"));
     }
 
     public List<User> getAllUsers() {
