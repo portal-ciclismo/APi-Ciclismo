@@ -16,7 +16,7 @@ public class User {
     @Column(name = "NAME", length = 35)
     private String name;
 
-    @Column(name = "PASSWORD", length = 12)
+    @Column(name = "PASSWORD", length = 18)
     @NotEmpty(message = "Name cannot be empty")
     private String password;
 
