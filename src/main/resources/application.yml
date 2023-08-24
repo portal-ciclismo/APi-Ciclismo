@@ -1,12 +1,27 @@
+server:
+  port: 8080
+
 spring:
-  profiles:
+  profile:
     active:
-      - test
+      - prod
   datasource:
-    url: jdbc:h2:mem:dbCiclismo
-    username: projetoCiclismo
-    password:
-    driverClassName: org.h2.Driver
+    url: jdbc:mysql://localhost/db_ciclismo?useTimezone=true&serverTimezone=UTC
+    username: root #Seu user
+    password: 200622pmr #Sua senha
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      database-platform: org.hibernate.dialect.H2Dialect
+      ddl-auto: update
+
+
+api:
+  security:
+    token:
+      secret: ${JWT_SECRET:chaveBolada}
+
+  flyway:
+    url: jdbc:mysql://localhost:3306/
+    schemas: db_ciclismo
+    user: root #Seu User
+    password: 200622pmr #SUA SENHA
