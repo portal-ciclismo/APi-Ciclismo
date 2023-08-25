@@ -8,6 +8,8 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.UserRole;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.TokenService;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
+@Tag(name =  "AuthEndPoint")
 public class AuthenticationController {
 
     @Autowired
@@ -38,6 +41,7 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @Operation(summary = "Login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO authenticationDTO){
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
@@ -48,6 +52,7 @@ public class AuthenticationController {
 
     @PostMapping("/new-register")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Novo registro")
     public User register(@RequestBody @Valid RegisterDTO registerDTO){
             if (registerDTO == null) return (User) ResponseEntity.badRequest();
             String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
