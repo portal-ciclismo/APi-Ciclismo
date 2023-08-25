@@ -30,7 +30,9 @@ public class SecurityConfigurations {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/new-register").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/new-register").permitAll().
+                        requestMatchers("/swagger-ui.html").permitAll().requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs").permitAll()
                         .anyRequest().authenticated()
                 )
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
@@ -38,6 +40,7 @@ public class SecurityConfigurations {
                 .build();
 
     }
+
 
 
     @Bean
