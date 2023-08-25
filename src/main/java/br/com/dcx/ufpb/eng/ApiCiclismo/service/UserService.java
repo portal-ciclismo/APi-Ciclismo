@@ -29,7 +29,7 @@ public class UserService {
         Optional<User> existingUserOptional = userRepository.findById(userId);
 
         return existingUserOptional.map(existingUser -> {
-            existingUser.setName(user.getName());
+            existingUser.setLogin(user.getLogin());
             existingUser.setEmail(user.getEmail());
             existingUser.setPassword(user.getPassword());
             return userRepository.save(existingUser);
