@@ -5,6 +5,17 @@ spring:
   profile:
     active:
       - prod
+  security:
+    filter:
+      cors:
+        enabled: true
+  cors:
+    allowed-origins: "*"
+    allowed-methods: GET, POST, PUT, DELETE, OPTIONS # Métodos HTTP permitidos
+    allowed-headers: "*" # Headers permitidos
+    allow-credentials: true # Indica se as credenciais (cookies, autenticação) podem ser incluídas na requisição
+    max-age: 3600 #
+
   datasource:
     url: jdbc:mysql://localhost/db_ciclismo?useTimezone=true&serverTimezone=UTC
     username: root #Seu user
@@ -13,6 +24,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
 
 
 api:
@@ -25,3 +37,18 @@ api:
     schemas: db_ciclismo
     user: root #Seu User
     password: 200622pmr #SUA SENHA
+
+springdoc:
+  swagger-ui:
+    config-url: /swagger-config.json
+
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - '*'
+

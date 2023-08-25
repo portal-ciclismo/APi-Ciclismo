@@ -8,6 +8,8 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.UserRole;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.TokenService;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
+@Tag(name =  "Auth EndPoint")
 public class AuthenticationController {
 
     @Autowired

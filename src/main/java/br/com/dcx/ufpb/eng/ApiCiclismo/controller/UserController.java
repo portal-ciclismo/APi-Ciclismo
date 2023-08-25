@@ -2,6 +2,8 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.controller;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 @Validated
+@Tag(name = "userEndPoint")
 public class UserController {
 
     private final UserRepository userRepository;
