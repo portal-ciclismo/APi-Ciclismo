@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("auth")
-@Tag(name =  "AuthEndPoint")
+@Tag(name =  "Auth EndPoint")
 public class AuthenticationController {
 
     @Autowired
@@ -41,7 +41,6 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    @Operation(summary = "Login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO authenticationDTO){
         var usernamePassword = new UsernamePasswordAuthenticationToken(authenticationDTO.getLogin(), authenticationDTO.getPassword());
         var auth = this.authenticationManager.authenticate(usernamePassword);
@@ -52,7 +51,6 @@ public class AuthenticationController {
 
     @PostMapping("/new-register")
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Novo registro")
     public User register(@RequestBody @Valid RegisterDTO registerDTO){
             if (registerDTO == null) return (User) ResponseEntity.badRequest();
             String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
