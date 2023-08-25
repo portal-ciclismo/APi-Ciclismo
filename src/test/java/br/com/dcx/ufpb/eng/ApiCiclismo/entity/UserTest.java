@@ -11,6 +11,7 @@ public class UserTest {
     private User userVazio = new User();
     private User userIniciado = new User(null, "Ana", "senha", "ric@gmail.com");
 
+    
     @Test
     void construtorTest(){
         assertNull(userIniciado.getId());
