@@ -5,6 +5,8 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
+
 import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import java.util.Arrays;
+import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -28,22 +36,41 @@ public class UserControllerTest {
     private UserRepository userRepository;
 
     @Test
-    void getDefaultUserUrlReturnAllUsers() throws Exception {
+    void getAllUsers_shouldReturnAllUsers() throws Exception {
         String url = "/api/users";
         mockMvc.perform(get(url))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[]"));
     }
 
     @Test
-    void getNonExistingUserById() throws Exception {
+    void getUserById_shouldReturnNotFound() throws Exception {
         String invalidId = "1";
         String url = String.format("/api/users/%s", invalidId);
         mockMvc.perform(get(url)).andExpect(status().isNotFound());
     }
 
     @Test
-    void createUserWithNoAttribute() throws Exception {
+    void getUserById_shouldReturnExistingUSer() throws Exception {
+        String url = "/api/users/1";
+
+        User user = new User(1L, "exampleName", "examplePassowrd", "email1@example.com");
+        ObjectMapper mapper = new ObjectMapper();
+        String userJson = mapper.writeValueAsString(user);
+
+        given(userRepository.findById(1L)).willReturn(Optional.of(user));
+
+        mockMvc.perform(get(url))
+                .andExpect(content().string((userJson)))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        verify(userRepository).findById(1L);
+    }
+
+    @Test
+    void createUserWithNoAttribute_shouldReturn400Error() throws Exception {
         String url = "/api/users";
 
         User user = new User();
@@ -54,10 +81,11 @@ public class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(userJson))
                 .andExpect(status().is4xxClientError());
-    }
+
+        }
 
     @Test
-    void createUserOnlyWithId() throws Exception {
+    void createUserOnlyWithId_shouldReturn400Error() throws Exception {
         String url = "/api/users";
         String userJson = "{\"id\":1231232231,\"name\":null,\"password\":null,\"email\":null}";
 
@@ -68,7 +96,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void createUserWithIdAndName() throws Exception {
+    void createUserWithIdAndName_shouldReturn400Error() throws Exception {
         String url = "/api/users";
         String userJson = "{\"id\":1231232231,\"name\":Fulano,\"password\":null,\"email\":null}";
 
@@ -79,7 +107,7 @@ public class UserControllerTest {
     }
 
     @Test
-    void createUserWithNoEmail() throws Exception {
+    void createUserWithNoEmail_shouldReturn400Error() throws Exception {
         String url = "/api/users";
         String userJson = "{\"id\":1231232231,\"name\":Fulano,\"password\":123456,\"email\":null}";
 
@@ -90,10 +118,9 @@ public class UserControllerTest {
     }
 
     @Test
-    void createUserWithNoValidEmail() throws Exception {
+    void createUserWithNoValidEmail_shouldReturn400Error() throws Exception {
         String url = "/api/users";
-        String userJson = "{\"id\":1231232231,\"name\":Fulano,\"password\":123456,\"email\":fulano.com}";
-
+        String userJson = "{\"id\":1231232231,\"name\":\"Fulano\",\"password\":123456,\"email\":\"fulano.com\"}";
         mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(userJson))
@@ -101,13 +128,37 @@ public class UserControllerTest {
     }
 
     @Test
-    void correctUserCreation() throws Exception {
+    void correctUserCreation_shouldReturnOk() throws Exception {
         String url = "/api/users";
-        String userJson = "{\"id\":1231232231,\"name\":Fulano,\"password\":123456,\"email\":fulano@gmail.com}";
-
+        String userJson = "{\"id\":1231232231,\"name\":\"Fulano\",\"password\":123456,\"email\":\"fulano@gmail.com\"}";
         mockMvc.perform(post(url).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .content(userJson))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteUser_shoudlReturnNotFound() throws Exception {
+        String url = "/api/users/1";
+        mockMvc.perform(MockMvcRequestBuilders.delete(url))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void deleteUser_shouldDeleteUser() throws Exception {
+        String url = "/api/users";
+        String userJson = "{\"id\":1231232231,\"name\":\"Fulano\",\"password\":123456,\"email\":\"fulano@gmail.com\"}";
+        mockMvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(userJson))
+                .andExpect(status().isOk());
+        
+        verify(userRepository).save(any(User.class));
+        
+        mockMvc.perform(MockMvcRequestBuilders.delete(url + "/" + "1231232231"))
+                .andExpect(status().isNoContent());
+
+        verify(userRepository).deleteById(1231232231L);
     }
 }
