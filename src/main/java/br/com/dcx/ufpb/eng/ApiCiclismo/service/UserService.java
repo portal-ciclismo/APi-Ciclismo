@@ -2,11 +2,12 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 import java.util.List;
 import java.util.Optional;
+
+import br.com.dcx.ufpb.eng.ApiCiclismo.exceptions.UserAlreadyExistsException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exceptions.UserNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
 
@@ -21,6 +22,9 @@ public class UserService {
 
     @Transactional
     public User createUser(User user) {
+        if(userRepository.findById(user.getId()).isEmpty()){
+            throw new UserAlreadyExistsException("User already exists.");
+        }
         return userRepository.save(user);
     }
 
@@ -33,20 +37,20 @@ public class UserService {
             existingUser.setEmail(user.getEmail());
             existingUser.setPassword(user.getPassword());
             return userRepository.save(existingUser);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found in DB"));
+        }).orElseThrow(() -> new UserNotFoundException("User not found in database."));
     }
 
     @Transactional
-    public void deleteUser(Long userId) {
+    public void deleteUser(Long userId) throws UserNotFoundException {
             userRepository.findById(userId).map(userFind -> {
                 userRepository.delete(userFind);
                 return userFind;
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not Find in DB"));
+        }).orElseThrow(() -> new UserNotFoundException("User not found in database."));
     }
 
-    public User getUserById(Long userId) {
+    public User getUserById(Long userId) throws UserNotFoundException {
         return userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not Find in DB"));
+                .orElseThrow(() -> new UserNotFoundException("User not found in database."));
     }
 
     public List<User> getAllUsers() {
