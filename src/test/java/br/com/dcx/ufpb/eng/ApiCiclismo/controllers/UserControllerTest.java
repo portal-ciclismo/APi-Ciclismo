@@ -2,21 +2,17 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.controllers;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.controller.UserController;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
+import br.com.dcx.ufpb.eng.ApiCiclismo.enums.UserRole;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
-
-import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -55,18 +51,17 @@ public class UserControllerTest {
     void getUserById_shouldReturnExistingUSer() throws Exception {
         String url = "/api/users/1";
 
-        User user = new User(1L, "exampleName", "examplePassowrd", "email1@example.com");
+        User user = new User("teste1", "examplePW", "example@example.com", UserRole.USER);
+        userRepository.save(user);
         ObjectMapper mapper = new ObjectMapper();
         String userJson = mapper.writeValueAsString(user);
-
-        given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
         mockMvc.perform(get(url))
                 .andExpect(content().string((userJson)))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        verify(userRepository).findById(1L);
+        verify(userRepository).findByLogin("teste1");
     }
 
     @Test
