@@ -1,16 +1,9 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
-import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
-import br.com.dcx.ufpb.eng.ApiCiclismo.service.UserService;
-import org.junit.jupiter.api.Test;
+import br.com.dcx.ufpb.eng.ApiCiclismo.service.serviceIMPL.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.transaction.TestTransaction;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @ActiveProfiles("test")

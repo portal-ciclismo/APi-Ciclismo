@@ -1,4 +1,4 @@
-package br.com.dcx.ufpb.eng.ApiCiclismo.service;
+package br.com.dcx.ufpb.eng.ApiCiclismo.service.serviceIMPL;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
