@@ -1,6 +1,7 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.entity;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
+import br.com.dcx.ufpb.eng.ApiCiclismo.enums.UserType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -33,7 +34,7 @@ public class Profile {
     private CyclingCategory cyclingCategory;
 
     @NotNull(message = "O tipo de usuário não pode ser nulo")
-    private CyclingCategory userType;
+    private UserType userType;
 
     @Size(max = 100, message = "A localização deve ter no máximo 100 caracteres")
     private String location;
@@ -42,7 +43,7 @@ public class Profile {
     private byte[] profilePicture;
 
     public Profile(String fullName, String nickname, String sexo, CyclingCategory cyclingCategory,
-                   CyclingCategory userType, String location, byte[] profilePicture) {
+                   UserType userType, String location, byte[] profilePicture) {
         this.fullName = fullName;
         this.nickname = nickname;
         this.sexo = sexo;
@@ -96,11 +97,11 @@ public class Profile {
         this.cyclingCategory = cyclingCategory;
     }
 
-    public CyclingCategory getUserType() {
+    public UserType getUserType() {
         return userType;
     }
 
-    public void setUserType(CyclingCategory userType) {
+    public void setUserType(UserType userType) {
         this.userType = userType;
     }
 
