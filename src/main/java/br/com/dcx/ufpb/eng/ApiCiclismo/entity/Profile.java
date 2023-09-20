@@ -1,5 +1,6 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.entity;
 
+import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -24,11 +25,15 @@ public class Profile {
     @Size(max = 50, message = "O apelido deve ter no máximo 50 caracteres")
     private String nickname;
 
+    @NotBlank(message = "O sexo não pode estar em branco")
+    @NotNull(message = "O sexo não pode ser nulo")
+    private String sexo;
+
     @Enumerated(EnumType.STRING)
     private CyclingCategory cyclingCategory;
 
     @NotNull(message = "O tipo de usuário não pode ser nulo")
-    private UserType userType;
+    private CyclingCategory userType;
 
     @Size(max = 100, message = "A localização deve ter no máximo 100 caracteres")
     private String location;
@@ -36,10 +41,19 @@ public class Profile {
     @Lob
     private byte[] profilePicture;
 
-    public enum CyclingCategory {}
+    public Profile(String fullName, String nickname, String sexo, CyclingCategory cyclingCategory,
+                   CyclingCategory userType, String location, byte[] profilePicture) {
+        this.fullName = fullName;
+        this.nickname = nickname;
+        this.sexo = sexo;
+        this.cyclingCategory = cyclingCategory;
+        this.userType = userType;
+        this.location = location;
+        this.profilePicture = profilePicture;
+    }
 
-    public enum UserType {
-        AMATEUR, PROFESSIONAL
+    public Profile (){
+
     }
 
     public Long getId() {
@@ -66,6 +80,14 @@ public class Profile {
         this.nickname = nickname;
     }
 
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+
     public CyclingCategory getCyclingCategory() {
         return cyclingCategory;
     }
@@ -74,11 +96,11 @@ public class Profile {
         this.cyclingCategory = cyclingCategory;
     }
 
-    public UserType getUserType() {
+    public CyclingCategory getUserType() {
         return userType;
     }
 
-    public void setUserType(UserType userType) {
+    public void setUserType(CyclingCategory userType) {
         this.userType = userType;
     }
 
@@ -97,4 +119,5 @@ public class Profile {
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
     }
+
 }
