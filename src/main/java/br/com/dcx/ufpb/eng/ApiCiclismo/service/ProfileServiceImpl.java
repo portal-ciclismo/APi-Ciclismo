@@ -9,35 +9,36 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 
-@Service
-public class ProfileServiceImpl implements ProfileService {
 
-    private final ProfileService profileRepository;
+    private final ProfileRepository profileRepository;
 
     @Autowired
     public ProfileServiceImpl(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
 
+    @Override
     @Transactional
     public Profile createProfile(Profile profile) {
         return profileRepository.save(profile);
     }
 
-
+    @Override
     public Profile getProfileById(Long id) {
-        return profileRepository.findById(id).
-                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not Find in DB"));;
+        return profileRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB"));
     }
 
+    @Override
     @Transactional
     public void deleteProfile(Long id) {
-        profileRepository.findById(userId).map(userFind -> {
-            profileRepository.delete(userFind);
-            return userFind;
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not Find in DB"));
+        profileRepository.findById(id).ifPresentOrElse(
+            userFind -> profileRepository.delete(userFind),
+            () -> { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB"); }
+        );
     }
 
+    @Override
     public List<Profile> getProfilesByFullName(String fullName) {
         List<Profile> profiles = profileRepository.findByFullName(fullName);
         if (profiles.isEmpty()) {
@@ -46,7 +47,7 @@ public class ProfileServiceImpl implements ProfileService {
         return profiles;
     }
 
-
+    @Override
     public List<Profile> getProfilesByNickname(String nickname) {
         List<Profile> profiles = profileRepository.getProfilesByNickname(nickname);
         if (profiles.isEmpty()) {
@@ -55,16 +56,16 @@ public class ProfileServiceImpl implements ProfileService {
         return profiles;
     }
 
-
+    @Override
     public List<Profile> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
-        List<Profile> profiles = profileRepository.getProfilesByNickname(nickname);
+        List<Profile> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
         }
-        return profileRepository.findByCyclingCategory(cyclingCategory);
+        return profiles;
     }
 
-
+    @Override
     public List<Profile> getProfilesByUserType(UserType userType) {
         List<Profile> profiles = profileRepository.findByUserType(userType);
         if (profiles.isEmpty()) {
@@ -73,7 +74,7 @@ public class ProfileServiceImpl implements ProfileService {
         return profiles;
     }
 
-
+    @Override
     public List<Profile> getProfilesByLocation(String location) {
         List<Profile> profiles = profileRepository.getProfilesByLocation(location);
         if (profiles.isEmpty()) {
@@ -82,9 +83,10 @@ public class ProfileServiceImpl implements ProfileService {
         return profiles;
     }
 
+    @Override
     @Transactional
     public Profile updateProfile(Long id, Profile updatedProfile) {
-        Optional existingProfileOptional = profileRepository.findById(id);
+        Optional<Profile> existingProfileOptional = profileRepository.findById(id);
 
         return existingProfileOptional.map(existingProfile ->{
             existingProfile.setFullName(updatedProfile.getFullName());
@@ -93,8 +95,7 @@ public class ProfileServiceImpl implements ProfileService {
             existingProfile.setUserType(updatedProfile.getUserType());
             existingProfile.setLocation(updatedProfile.getLocation());
             return profileRepository.save(existingProfile);
-        }).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Profile not Find in DB"));
-
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB"));
     }
 
 }
