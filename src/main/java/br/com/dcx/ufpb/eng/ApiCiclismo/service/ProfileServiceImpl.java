@@ -20,19 +20,17 @@ public class ProfileServiceImpl implements Profile{
         this.profileRepository = profileRepository;
     }
 
-    @Override
     @Transactional
     public Profile createProfile(Profile profile) {
         return profileRepository.save(profile);
     }
 
-    @Override
     public Profile getProfileById(Long id) {
         return profileRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB"));
     }
 
-    @Override
+    
     @Transactional
     public void deleteProfile(Long id) {
         profileRepository.findById(id).ifPresentOrElse(
@@ -41,7 +39,6 @@ public class ProfileServiceImpl implements Profile{
         );
     }
 
-    @Override
     public List<Profile> getProfilesByFullName(String fullName) {
         List<Profile> profiles = profileRepository.findByFullName(fullName);
         if (profiles.isEmpty()) {
@@ -50,7 +47,6 @@ public class ProfileServiceImpl implements Profile{
         return profiles;
     }
 
-    @Override
     public List<Profile> getProfilesByNickname(String nickname) {
         List<Profile> profiles = profileRepository.getProfilesByNickname(nickname);
         if (profiles.isEmpty()) {
@@ -59,7 +55,6 @@ public class ProfileServiceImpl implements Profile{
         return profiles;
     }
 
-    @Override
     public List<Profile> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
         List<Profile> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
         if (profiles.isEmpty()) {
@@ -68,7 +63,6 @@ public class ProfileServiceImpl implements Profile{
         return profiles;
     }
 
-    @Override
     public List<Profile> getProfilesByUserType(UserType userType) {
         List<Profile> profiles = profileRepository.findByUserType(userType);
         if (profiles.isEmpty()) {
@@ -77,7 +71,6 @@ public class ProfileServiceImpl implements Profile{
         return profiles;
     }
 
-    @Override
     public List<Profile> getProfilesByLocation(String location) {
         List<Profile> profiles = profileRepository.getProfilesByLocation(location);
         if (profiles.isEmpty()) {
@@ -86,7 +79,6 @@ public class ProfileServiceImpl implements Profile{
         return profiles;
     }
 
-    @Override
     @Transactional
     public Profile updateProfile(Long id, Profile updatedProfile) {
         Optional<Profile> existingProfileOptional = profileRepository.findById(id);
