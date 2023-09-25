@@ -6,10 +6,25 @@ public class ProfileDTO {
 
     private String fullName;
     private String nickname;
+
+    private String sexo;
+
     private UserType userType;
     private CyclingCategory cyclingCategory;
     private String location;
     private byte[] profilePicture;
+
+    public ProfileDTO(String fullName, String nickname, String sexo, UserType userType, CyclingCategory cyclingCategory, String location, byte[] profilePicture) {
+        this.fullName = fullName;
+        this.nickname = nickname;
+        this.sexo = sexo;
+        this.userType = userType;
+        this.cyclingCategory = cyclingCategory;
+        this.location = location;
+        this.profilePicture = profilePicture;
+    }
+
+    public ProfileDTO() {}
 
     public String getFullName() {
         return fullName;
@@ -25,6 +40,14 @@ public class ProfileDTO {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getSexo() {
+        return sexo;
+    }
+
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
     }
 
     public UserType getUserType() {
