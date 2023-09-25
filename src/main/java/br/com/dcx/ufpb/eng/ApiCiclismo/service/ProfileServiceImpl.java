@@ -1,6 +1,8 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 
+import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
+import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -11,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProfileServiceImpl implements Profile{
+public class ProfileServiceImpl{
 
     private final ProfileRepository profileRepository;
 
