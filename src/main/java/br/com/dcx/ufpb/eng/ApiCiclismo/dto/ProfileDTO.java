@@ -1,6 +1,8 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.dto;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
+import org.hibernate.usertype.UserType;
+
 public class ProfileDTO {
 
     private String fullName;

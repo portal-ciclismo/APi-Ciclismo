@@ -5,10 +5,9 @@ import java.util.Optional;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.UserDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EmailNotFoundException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoudException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
 
@@ -31,28 +30,28 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<User> getUserById(Long id) {
+    public Optional<User> getUserById(Long id) throws UserNotFoudException {
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+            throw new UserNotFoudException( "User not found.");
         }
         return optionalUser;
     }
 
 
-    public void deleteUser(Long id) {
+    public void deleteUser(Long id) throws UserNotFoudException {
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+            throw new UserNotFoudException( "User not found.");
         }
         userRepository.deleteById(id);
     }
 
 
-    public void UpdateUser(Long id, UserDTO userDTO) {
+    public void UpdateUser(Long id, UserDTO userDTO) throws UserNotFoudException {
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+            throw new UserNotFoudException( "User not found.");
         }
         User user = optionalUser.get();
         user.setEmail(userDTO.getEmail());
