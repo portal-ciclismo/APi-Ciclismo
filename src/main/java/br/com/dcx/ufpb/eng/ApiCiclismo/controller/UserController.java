@@ -4,7 +4,8 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.controller;
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.UserDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EmailNotFoundException;
-import br.com.dcx.ufpb.eng.ApiCiclismo.service.UserService;
+
+import br.com.dcx.ufpb.eng.ApiCiclismo.service.serviceIMPL.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

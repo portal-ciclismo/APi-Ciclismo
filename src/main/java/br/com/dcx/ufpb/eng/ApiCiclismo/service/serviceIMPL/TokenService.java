@@ -1,4 +1,4 @@
-package br.com.dcx.ufpb.eng.ApiCiclismo.service;
+package br.com.dcx.ufpb.eng.ApiCiclismo.service.serviceIMPL;
 
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
