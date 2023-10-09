@@ -2,7 +2,9 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 import java.util.List;
 import java.util.Optional;
-import jakarta.transaction.Transactional;
+
+import br.com.dcx.ufpb.eng.ApiCiclismo.dto.UserDTO;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EmailNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -17,39 +19,55 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+
     }
 
-    @Transactional
-    public User createUser(User user) {
+
+    public List<User> getUsers() {
+        return userRepository.findAll();
+    }
+
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 
-    @Transactional
-    public User updateUser(Long userId, User user) {
-        Optional<User> existingUserOptional = userRepository.findById(userId);
-
-        return existingUserOptional.map(existingUser -> {
-            existingUser.setLogin(user.getLogin());
-            existingUser.setEmail(user.getEmail());
-            existingUser.setPassword(user.getPassword());
-            return userRepository.save(existingUser);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found in DB"));
+    public Optional<User> getUserById(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+        }
+        return optionalUser;
     }
 
-    @Transactional
-    public void deleteUser(Long userId) {
-            userRepository.findById(userId).map(userFind -> {
-                userRepository.delete(userFind);
-                return userFind;
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not Find in DB"));
+
+    public void deleteUser(Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+        }
+        userRepository.deleteById(id);
     }
 
-    public User getUserById(Long userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not Find in DB"));
+
+    public void UpdateUser(Long id, UserDTO userDTO) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if(optionalUser.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found.");
+        }
+        User user = optionalUser.get();
+        user.setEmail(userDTO.getEmail());
+        user.setPassword(userDTO.getPassword());
+        userRepository.save(user);
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public User getByEmail(String email) throws EmailNotFoundException {
+        try {
+            return userRepository.findByEmail(email);
+        } catch (Exception e) {
+            throw new EmailNotFoundException("Email not found.");
+        }
+
     }
+
+
 }

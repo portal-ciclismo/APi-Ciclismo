@@ -5,50 +5,27 @@ spring:
   profile:
     active:
       - prod
-  security:
-    filter:
-      cors:
-        enabled: true
-  cors:
-    allowed-origins: "*"
-    allowed-methods: GET, POST, PUT, DELETE, OPTIONS # Métodos HTTP permitidos
-    allowed-headers: "*" # Headers permitidos
-    allow-credentials: true # Indica se as credenciais (cookies, autenticação) podem ser incluídas na requisição
-    max-age: 3600 #
 
   datasource:
     url: jdbc:mysql://localhost/db_ciclismo?useTimezone=true&serverTimezone=UTC
-    username: root #Seu user
-    password: 200622pmr #Sua senha
+    username: root
+    password: 200622pmr
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: update
-
-
 
 api:
   security:
     token:
       secret: ${JWT_SECRET:chaveBolada}
 
-  flyway:
-    url: jdbc:mysql://localhost:3306/
-    schemas: db_ciclismo
-    user: root #Seu User
-    password: 200622pmr #SUA SENHA
+flyway:
+  url: jdbc:mysql://localhost:3306/
+  schemas: db_ciclismo
+  user: root
+  password: 200622pmr
 
 springdoc:
   swagger-ui:
     config-url: /swagger-config.json
-
-
-
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - '*'
-

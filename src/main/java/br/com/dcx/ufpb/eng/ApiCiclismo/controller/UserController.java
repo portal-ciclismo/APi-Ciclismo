@@ -1,59 +1,61 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.controller;
 
+
+import br.com.dcx.ufpb.eng.ApiCiclismo.dto.UserDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
-import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EmailNotFoundException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/users")
-@Validated
-@Tag(name = "userEndPoint")
+@RequestMapping("/usuarios")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
-    private final UserRepository userRepository;
-
     @Autowired
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    UserService usuarioService;
+
+    public UserController(UserService usuarioService) {
+        this.usuarioService = usuarioService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return ResponseEntity.ok(users);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user != null) {
-            return ResponseEntity.ok(user);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> getUsers() {
+        return usuarioService.getUsers();
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(savedUser);
+    @ResponseStatus(HttpStatus.CREATED)
+    public User saveUser(@RequestBody User user) {
+        return usuarioService.saveUser(user);
+    }
+
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<User> getUserById(@PathVariable Long id) {
+        return usuarioService.getUserById(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        if (userRepository.existsById(id)) {
-            userRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Long id) {
+        usuarioService.deleteUser(id);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void UpdateUser(@PathVariable Long id, @RequestBody UserDTO user) {
+        usuarioService.UpdateUser(id, user);
+    }
+
+    @GetMapping(value = "/user/{email}")
+    @ResponseStatus(HttpStatus.OK)
+    public User getUserByEmail(@PathVariable String email) throws EmailNotFoundException {
+        return usuarioService.getByEmail(email);
     }
 }
-
