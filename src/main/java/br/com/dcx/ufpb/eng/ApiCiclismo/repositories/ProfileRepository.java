@@ -11,14 +11,14 @@ import java.util.List;
 public interface ProfileRepository extends JpaRepository<Profile, Long> {
 
 
-    List<ProfileService> getProfilesByLocation(String location);
+    List<Profile> getProfilesByLocation(String location);
 
-    List<ProfileService> findByUserType(UserType userType);
+    List<Profile> findByUserType(UserType userType);
 
-    List<ProfileService> findByCyclingCategory(CyclingCategory cyclingCategory);
+    List<Profile> findByCyclingCategory(CyclingCategory cyclingCategory);
 
-    List<ProfileService> getProfilesByNickname(String nickname);
+    List<Profile> getProfilesByNickname(String nickname);
 
-    List<ProfileService> findByFullName(String fullName);
+    List<Profile> findByFullName(String fullName);
 }
 

@@ -14,7 +14,7 @@ public interface ProfileService {
 
         public void deleteProfile(Long id);
 
-        public List<ProfileService> getProfilesByFullName(String fullName);
+        public List<Profile> getProfilesByFullName(String fullName);
 
         public List<ProfileService> getProfilesByNickname(String nickname);
 

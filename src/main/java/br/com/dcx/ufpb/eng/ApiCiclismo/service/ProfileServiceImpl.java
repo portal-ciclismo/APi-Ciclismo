@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -48,8 +47,8 @@ public class ProfileServiceImpl implements ProfileService {
         );
     }
 
-    public List<ProfileService> getProfilesByFullName(String fullName) {
-        List<ProfileService> profiles = profileRepository.findByFullName(fullName);
+    public List<Profile> getProfilesByFullName(String fullName) {
+        List<Profile> profiles = profileRepository.findByFullName(fullName);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
         }
@@ -57,54 +56,55 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public List<ProfileService> getProfilesByNickname(String nickname) {
-        List<ProfileService> profiles = profileRepository.getProfilesByNickname(nickname);
+        List<Profile> profiles = profileRepository.getProfilesByNickname(nickname);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
         }
-        return profiles;
+        return profile;
     }
 
     @Override
     public List<ProfileService> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
-        List<ProfileService> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
+        List<Profile> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado na categoria de ciclismo especificada");
         } else {
-            return profiles;
+            return profile;
         }
     }
 
     @Override
     public List<ProfileService> getProfilesByUserType(UserType userType) {
-        List<ProfileService> profiles = profileRepository.findByUserType(userType);
+        List<Profile> profiles = profileRepository.findByUserType(userType);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado para o tipo de usuário especificado");
         }
-        return profiles;
+        return profile;
     }
 
     public List<ProfileService> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
-        List<ProfileService> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
+        List<Profile> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
         }
-        return profiles;
+        return profile;
     }
 
     public List<ProfileService> getProfilesByUserType(UserType userType) {
-        List<ProfileService> profiles = profileRepository.findByUserType(userType);
+        List<Profile> profiles = profileRepository.findByUserType(userType);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
         }
-        return profiles;
+        return profile;
     }
 
     public List<ProfileService> getProfilesByLocation(String location) {
-        List<ProfileService> profiles = profileRepository.getProfilesByLocation(location);
+        List<Profile> profiles = profileRepository.getProfilesByLocation(location);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
         }
-        return profiles;
+
+        return profile;
     }
 
     @Transactional
