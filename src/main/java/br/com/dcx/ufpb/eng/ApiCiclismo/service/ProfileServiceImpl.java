@@ -1,6 +1,7 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 
+import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.ProfileRepository;
 import org.hibernate.usertype.UserType;
@@ -33,7 +34,7 @@ public class ProfileServiceImpl implements ProfileService {
         return null;
     }
 
-    public ProfileService getProfileById(Long id) {
+    public Profile getProfileById(Long id) {
         return profileRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB"));
     }
@@ -65,12 +66,20 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Override
     public List<ProfileService> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
-        return null;
+        List<ProfileService> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
+        if (profiles.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado na categoria de ciclismo especificada");
+        }
+        return profiles;
     }
 
     @Override
     public List<ProfileService> getProfilesByUserType(UserType userType) {
-        return null;
+        List<ProfileService> profiles = profileRepository.findByUserType(userType);
+        if (profiles.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado para o tipo de usuário especificado");
+        }
+        return profiles;
     }
 
     public List<ProfileService> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
@@ -99,15 +108,15 @@ public class ProfileServiceImpl implements ProfileService {
 
     @Transactional
     public ProfileService updateProfile(Long id, ProfileService updatedProfile) {
-        Optional<ProfileService> existingProfileOptional = profileRepository.findById(id);
-
-        return existingProfileOptional.map(existingProfile ->{
-            existingProfile.setFullName(updatedProfile.getFullName());
-            existingProfile.setNickname(updatedProfile.getNickname());
-            existingProfile.setCyclingCategory(updatedProfile.getCyclingCategory());
-            existingProfile.setUserType(updatedProfile.getUserType());
-            existingProfile.setLocation(updatedProfile.getLocation());
-            return profileRepository.save(existingProfile);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB"));
+        return profileRepository.findById(id)
+                .map(existingProfile -> {
+                    existingProfile.setFullName(updatedProfile.getFullName());
+                    existingProfile.setNickname(updatedProfile.getNickname());
+                    existingProfile.setCyclingCategory(updatedProfile.getCyclingCategory());
+                    existingProfile.setUserType(updatedProfile.getUserType());
+                    existingProfile.setLocation(updatedProfile.getLocation());
+                    return profileRepository.save(existingProfile);
+                })
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado no banco de dados"));
     }
 }
