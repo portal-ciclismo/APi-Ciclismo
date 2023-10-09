@@ -69,8 +69,9 @@ public class ProfileServiceImpl implements ProfileService {
         List<ProfileService> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado na categoria de ciclismo especificada");
+        } else {
+            return profiles;
         }
-        return profiles;
     }
 
     @Override
