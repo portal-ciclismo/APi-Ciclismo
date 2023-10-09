@@ -24,7 +24,7 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create().withIssuer("Ciclismo-API").
-                    withSubject(user.getLogin()).withExpiresAt(genExpirationDate()).sign(algorithm);
+                    withSubject(user.getEmail()).withExpiresAt(genExpirationDate()).sign(algorithm);
         return token;
         }catch (JWTCreationException jwtCreationException){
             throw new RuntimeException("Error while generating token");
@@ -40,8 +40,6 @@ public class TokenService {
 
         }
     }
-
-
 
     private Instant genExpirationDate(){
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));

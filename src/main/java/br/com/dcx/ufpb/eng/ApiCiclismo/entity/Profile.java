@@ -1,7 +1,6 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.entity;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
-import br.com.dcx.ufpb.eng.ApiCiclismo.enums.UserType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
