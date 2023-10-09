@@ -1,22 +1,22 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.controllers;
 
+import br.com.dcx.ufpb.eng.ApiCiclismo.controller.AuthenticationController;
 import br.com.dcx.ufpb.eng.ApiCiclismo.controller.UserController;
+import br.com.dcx.ufpb.eng.ApiCiclismo.dto.AuthenticationDTO;
+import br.com.dcx.ufpb.eng.ApiCiclismo.dto.RegisterDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
+import br.com.dcx.ufpb.eng.ApiCiclismo.enums.UserRole;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.UserRepository;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
 
-import net.minidev.json.JSONUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import java.util.Arrays;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -34,6 +34,9 @@ public class UserControllerTest {
 
     @MockBean
     private UserRepository userRepository;
+
+    @MockBean
+    private AuthenticationController authController;
 
     @Test
     void getAllUsers_shouldReturnAllUsers() throws Exception {
@@ -54,8 +57,10 @@ public class UserControllerTest {
     @Test
     void getUserById_shouldReturnExistingUSer() throws Exception {
         String url = "/api/users/1";
-
-        User user = new User(1L, "exampleName", "examplePassowrd", "email1@example.com");
+        RegisterDTO dto = new RegisterDTO("example", "examplePw", "example@gmail.com", "USER");
+        User user = authController.register(dto);
+        authController.login(new AuthenticationDTO("example", "examplePw"));
+        user.setId(1l);
         ObjectMapper mapper = new ObjectMapper();
         String userJson = mapper.writeValueAsString(user);
 
@@ -153,9 +158,9 @@ public class UserControllerTest {
                 .accept(MediaType.APPLICATION_JSON)
                 .content(userJson))
                 .andExpect(status().isOk());
-        
+
         verify(userRepository).save(any(User.class));
-        
+
         mockMvc.perform(MockMvcRequestBuilders.delete(url + "/" + "1231232231"))
                 .andExpect(status().isNoContent());
 
