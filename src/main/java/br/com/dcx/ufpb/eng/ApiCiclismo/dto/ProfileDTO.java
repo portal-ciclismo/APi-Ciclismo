@@ -1,6 +1,5 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.dto;
 
-import br.com.dcx.ufpb.eng.ApiCiclismo.enums.UserType;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 public class ProfileDTO {
 
