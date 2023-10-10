@@ -3,9 +3,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.io.Serial;
-import java.util.Set;
 
-@Entity(name = "Group")
+@Entity(name = "CyclistGroup")
 public class Group {
 
     @Serial
@@ -31,6 +30,7 @@ public class Group {
     @Column(name = "PRIVACY")
     @NotBlank(message = "Privacy cannot be empty")
     private boolean privacy;
+/*
 
     @ManyToMany // Falta fazer o contrário na classe profile
     @JoinTable(
@@ -38,6 +38,7 @@ public class Group {
             joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "profile_id"))
     private Set<Profile> participants;
+*/
 
     public Group(String name, String description, String location, Boolean privacy){
         this.name = name;
@@ -73,7 +74,7 @@ public class Group {
     public void setPrivacy(boolean privacy) {
         this.privacy = privacy;
     }
-
+/*
     public Set<Profile> getParticipants() {
         return participants;
     }
@@ -82,4 +83,7 @@ public class Group {
         this.participants = participants;
     }
 
+ */
+
 }
+
