@@ -1,4 +1,4 @@
-package br.com.dcx.ufpb.eng.ApiCiclismo.service.serviceIMPL;
+package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 import java.util.List;
 import java.util.Optional;
