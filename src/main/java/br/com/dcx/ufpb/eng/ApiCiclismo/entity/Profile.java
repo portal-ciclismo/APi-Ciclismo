@@ -60,7 +60,7 @@ public class Profile {
     }
 
     public  boolean getCiclistaAmador(){
-        return CyclingCategory.AMADOR.equals(getCyclingCategory());
+        return getCyclingCategory() == CyclingCategory.AMADOR;
     }
 
     public void setCiclistaAmador() {
@@ -68,7 +68,7 @@ public class Profile {
     }
 
     public  boolean getCiclistaProfissional(){
-        return CyclingCategory.PROFISSIONAL.equals(getCyclingCategory());
+        return getCyclingCategory() == CyclingCategory.PROFISSIONAL;
     }
     public void setCiclistaProfissional() {
         setCyclingCategory(CyclingCategory.PROFISSIONAL);
