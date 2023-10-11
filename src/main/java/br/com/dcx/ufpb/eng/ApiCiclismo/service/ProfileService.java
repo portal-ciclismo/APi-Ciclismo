@@ -26,4 +26,7 @@ public interface ProfileService {
 
     public Profile updateProfile(Long id, ProfileService updatedProfile);
 
+    public Profile readProfile(Long id);
+
+    public Profile createProfile(Profile profile);
 }

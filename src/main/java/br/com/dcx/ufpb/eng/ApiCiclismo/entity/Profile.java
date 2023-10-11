@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.util.List;
+
 @Entity
 @Table(name = "Profile")
 public class Profile {
@@ -138,5 +140,8 @@ public class Profile {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setUserType(List<Profile> profilesByUserType) {
     }
 }

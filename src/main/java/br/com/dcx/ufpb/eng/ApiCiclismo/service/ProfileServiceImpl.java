@@ -16,10 +16,6 @@ public class ProfileServiceImpl implements ProfileService {
 
     // falta implementar
 
-
-
-
-
     private ProfileRepository profileRepository;
 
     @Autowired
@@ -32,27 +28,23 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     public Profile getProfileById(Long id) {
-        return null;
+        return profileRepository.getReferenceById(id);
     }
-
 
     public void deleteProfile(Long id) {
-
+        profileRepository.deleteById(id);
     }
-
 
     public List<Profile> getProfilesByFullName(String fullName) {
-        return null;
+        return profileRepository.findByFullName(fullName);
     }
-
 
     public List<Profile> getProfilesByNickname(String nickname) {
-        return null;
+        return profileRepository.findByNickname(nickname);
     }
 
-
     public List<Profile> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
-        return null;
+        return profileRepository.findByCyclingCategory(cyclingCategory);
     }
 
     public List<Profile> getProfilesByUserType(UserType userType) {
@@ -61,11 +53,19 @@ public class ProfileServiceImpl implements ProfileService {
 
 
     public List<Profile> getProfilesByLocation(String location) {
-        return null;
+        return profileRepository.findByLocation(location);
     }
 
     public Profile updateProfile(Long id, ProfileService updatedProfile) {
         return null;
+    }
+
+    public Profile readProfile(Long id) {
+        return profileRepository.getReferenceById(id);
+    }
+
+    public Profile createProfile(Profile profile) {
+        return profileRepository.save(profile);
     }
 
 }
