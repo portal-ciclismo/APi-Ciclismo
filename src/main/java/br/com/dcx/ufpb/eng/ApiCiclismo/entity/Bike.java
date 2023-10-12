@@ -14,6 +14,9 @@ public class Bike {
     @Column(name = "ID")
     private Long id;
 
+    @OneToOne(mappedBy = "bike")
+    private Profile profile;
+
     @Size(max = 30)
     private String frameMaterial;
 
