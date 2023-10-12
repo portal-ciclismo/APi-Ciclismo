@@ -33,7 +33,7 @@ public class Profile {
     @Column(name = "SEX")
     private String sexo;
 
-    @NotBlank(message = "O cyclingCategory não pode estar em branco")
+
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY")
     private CyclingCategory cyclingCategory;
@@ -43,9 +43,9 @@ public class Profile {
     @Column(name = "LOCALITY")
     private String location;
 
-    @Lob
-    @Column(name = "PROFILEPICTURE")
-    private byte[] profilePicture;
+//    @Lob
+//    @Column(name = "PROFILEPICTURE")
+//    private byte[] profilePicture;
 
     public Profile (){
     }
@@ -57,9 +57,10 @@ public class Profile {
         this.sexo = sexo;
         this.cyclingCategory = cyclingCategory;
         this.location = location;
-        this.profilePicture = profilePicture;
+        //this.profilePicture = profilePicture;
         this.user = user;
     }
+
 
     public  boolean getCiclistaAmador(){
         return getCyclingCategory() == CyclingCategory.AMADOR;
@@ -126,13 +127,13 @@ public class Profile {
         this.location = location;
     }
 
-    public byte[] getProfilePicture() {
-        return profilePicture;
-    }
-
-    public void setProfilePicture(byte[] profilePicture) {
-        this.profilePicture = profilePicture;
-    }
+//    public byte[] getProfilePicture() {
+//        return profilePicture;
+//    }
+//
+//    public void setProfilePicture(byte[] profilePicture) {
+//        this.profilePicture = profilePicture;
+//    }
 
     public User getUser() {
         return user;

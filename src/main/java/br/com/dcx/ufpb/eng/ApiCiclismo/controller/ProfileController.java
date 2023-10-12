@@ -1,11 +1,11 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.controller;
 
+import br.com.dcx.ufpb.eng.ApiCiclismo.dto.ProfileDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoudException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.ProfileService;
-import br.com.dcx.ufpb.eng.ApiCiclismo.service.ProfileServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,38 +15,42 @@ import java.util.Optional;
 @RequestMapping("/profiles")
 public class ProfileController {
 
-    // adicione todos os medotos do controller aq, abaado no service
 
-    @Autowired
     private ProfileService profileService;
 
+    @Autowired
+    public ProfileController(ProfileService profileService) {
+        this.profileService = profileService;
+    }
+
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public List<Profile> getProfiles() {
+        return profileService.getProfiles();
+    }
+
     @PostMapping
-    public ResponseEntity<Profile> createProfile(@RequestBody Profile profile) {
-        Profile createdProfile = profileService.createProfile(profile);
-        return new ResponseEntity<>(createdProfile, HttpStatus.CREATED);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Profile saveProfile(@RequestBody Profile profile) {
+        return profileService.saveProfile(profile);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Profile> readProfile(@PathVariable Long id) {
-        Profile profile = profileService.readProfile(id);
-        if (profile != null) {
-            return new ResponseEntity<>(profile, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Profile> updateProfile(@PathVariable Long id, @RequestBody ProfileServiceImpl profile) {
-        Profile updatedProfile = profileService.updateProfile(id, profile);
-        if (updatedProfile != null) {
-            return new ResponseEntity<>(updatedProfile, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    @ResponseStatus(HttpStatus.OK)
+    public Optional<Profile> getProfileById(@PathVariable Long id) throws ProfileNotFoudException {
+        return profileService.getProfileById(id);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProfile(@PathVariable Long id) throws ProfileNotFoudException {
         profileService.deleteProfile(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateProfile(@PathVariable Long id, @RequestBody ProfileDTO profileDTO) throws ProfileNotFoudException {
+        profileService.updateProfile(id, profileDTO);
+    }
+
 }
