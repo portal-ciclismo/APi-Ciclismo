@@ -2,9 +2,8 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.ProfileDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
-import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
-import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoudException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoundException;
 import org.hibernate.usertype.UserType;
 
 import java.util.List;
@@ -16,11 +15,11 @@ public interface ProfileService {
 
     public List<Profile> getProfiles();
 
-    public Optional<Profile> getProfileById(Long id) throws ProfileNotFoudException;
+    public Optional<Profile> getProfileById(Long id) throws ProfileNotFoundException;
 
-    public void updateProfile (Long id, ProfileDTO profileDTO)throws ProfileNotFoudException;
+    public void updateProfile (Long id, ProfileDTO profileDTO)throws ProfileNotFoundException;
 
-    public void deleteProfile(Long id) throws ProfileNotFoudException;
+    public void deleteProfile(Long id) throws ProfileNotFoundException;
 
     public List<Profile> getProfilesByFullName(String fullName);
 

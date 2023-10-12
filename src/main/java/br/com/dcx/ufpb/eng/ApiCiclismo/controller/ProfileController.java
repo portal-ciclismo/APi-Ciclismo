@@ -2,7 +2,7 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.controller;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.ProfileDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
-import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoudException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoundException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,19 +37,19 @@ public class ProfileController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Profile> getProfileById(@PathVariable Long id) throws ProfileNotFoudException {
+    public Optional<Profile> getProfileById(@PathVariable Long id) throws ProfileNotFoundException {
         return profileService.getProfileById(id);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProfile(@PathVariable Long id) throws ProfileNotFoudException {
+    public void deleteProfile(@PathVariable Long id) throws ProfileNotFoundException {
         profileService.deleteProfile(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateProfile(@PathVariable Long id, @RequestBody ProfileDTO profileDTO) throws ProfileNotFoudException {
+    public void updateProfile(@PathVariable Long id, @RequestBody ProfileDTO profileDTO) throws ProfileNotFoundException {
         profileService.updateProfile(id, profileDTO);
     }
 

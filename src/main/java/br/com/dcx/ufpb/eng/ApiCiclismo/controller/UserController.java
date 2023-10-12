@@ -5,7 +5,7 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.dto.UserDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EmailNotFoundException;
 
-import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoudException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoundException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -39,7 +39,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<User> getUserById(@PathVariable Long id) throws UserNotFoudException {
+    public Optional<User> getUserById(@PathVariable Long id) throws UserNotFoundException {
         return usuarioService.getUserById(id);
     }
 
@@ -47,13 +47,13 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@PathVariable Long id) throws UserNotFoudException {
+    public void deleteUser(@PathVariable Long id) throws UserNotFoundException {
         usuarioService.deleteUser(id);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void UpdateUser(@PathVariable Long id, @RequestBody UserDTO user) throws UserNotFoudException {
+    public void UpdateUser(@PathVariable Long id, @RequestBody UserDTO user) throws UserNotFoundException {
         usuarioService.UpdateUser(id, user);
     }
 

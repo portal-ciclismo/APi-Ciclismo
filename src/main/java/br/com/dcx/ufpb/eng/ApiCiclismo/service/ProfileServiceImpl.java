@@ -3,7 +3,7 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.ProfileDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
-import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoudException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoundException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.ProfileRepository;
 import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,34 +32,42 @@ public class ProfileServiceImpl implements ProfileService {
         return profileRepository.save(profile);
     }
 
-    public Optional<Profile> getProfileById(Long id) throws ProfileNotFoudException {
+    public Optional<Profile> getProfileById(Long id) throws ProfileNotFoundException {
         Optional<Profile> optionalProfile = profileRepository.findById(id);
         if (optionalProfile.isEmpty()) {
-            throw new ProfileNotFoudException("Profile not found.");
+            throw new ProfileNotFoundException("Profile not found.");
         }
         return optionalProfile;
     }
 
-    public void deleteProfile(Long id) throws ProfileNotFoudException {
+    public void deleteProfile(Long id) throws ProfileNotFoundException {
         Optional<Profile> optionalProfile = profileRepository.findById(id);
         if (optionalProfile.isEmpty()) {
-            throw new ProfileNotFoudException("Profile not found.");
+            throw new ProfileNotFoundException("Profile not found.");
         }
         profileRepository.deleteById(id);
     }
 
-    public void updateProfile(Long id, ProfileDTO profileDTO) throws ProfileNotFoudException {
+    public void updateProfile(Long id, ProfileDTO profileDTO) throws ProfileNotFoundException {
         Optional<Profile> optionalProfile = profileRepository.findById(id);
         if (optionalProfile.isEmpty()) {
-            throw new ProfileNotFoudException("Profile not found.");
+            throw new ProfileNotFoundException("Profile not found.");
         }
+
         Profile profile = optionalProfile.get();
         profile.setFullName(profileDTO.getFullName());
         profile.setNickname(profileDTO.getNickname());
         profile.setSexo(profileDTO.getSexo());
         profile.setLocation(profileDTO.getLocation());
-        profile.setCiclistaProfissional();
-        profile.setCiclistaAmador();
+
+        if (profileDTO.isCiclistaProfissional()) {
+            profile.setCiclistaProfissional(true);
+            profile.setCiclistaAmador(false);
+        } else {
+            profile.setCiclistaProfissional(false);
+            profile.setCiclistaAmador(true);
+        }
+
         profileRepository.save(profile);
     }
 

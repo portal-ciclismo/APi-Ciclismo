@@ -29,4 +29,7 @@ public record ProfileDTO (Long id, UserDTO user, String fullName, String nicknam
         return location;
     }
 
+    public boolean isCiclistaProfissional() {
+        return true;
+    }
 }

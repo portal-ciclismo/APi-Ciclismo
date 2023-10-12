@@ -66,14 +66,15 @@ public class Profile {
         return getCyclingCategory() == CyclingCategory.AMADOR;
     }
 
-    public void setCiclistaAmador() {
+    public void setCiclistaAmador(boolean amador) {
         setCyclingCategory(CyclingCategory.AMADOR);
     }
 
     public  boolean getCiclistaProfissional(){
         return getCyclingCategory() == CyclingCategory.PROFISSIONAL;
     }
-    public void setCiclistaProfissional() {
+
+    public void setCiclistaProfissional(boolean profissional) {
         setCyclingCategory(CyclingCategory.PROFISSIONAL);
     }
 
