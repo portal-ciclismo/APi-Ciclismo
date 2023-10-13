@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import org.hibernate.usertype.UserType;
 
 import java.io.Serial;
+import java.util.List;
 
 @Entity
 public class Profile {
@@ -17,7 +18,7 @@ public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "PROFILE_ID")
     private Long id;
 
     @NotBlank(message = "O nome completo não pode estar em branco")
@@ -40,11 +41,14 @@ public class Profile {
     @Size(max = 100, message = "A localização deve ter no máximo 100 caracteres")
     private String location;
 
+    @ManyToMany(mappedBy = "participants")
+    private List<Event> events;
+
     @Lob
     private byte[] profilePicture;
 
     public Profile(String fullName, String nickname, String sexo, CyclingCategory cyclingCategory,
-                   UserType userType, String location, byte[] profilePicture) {
+                   UserType userType, String location, byte[] profilePicture, List<Event> events) {
         this.fullName = fullName;
         this.nickname = nickname;
         this.sexo = sexo;
@@ -52,6 +56,7 @@ public class Profile {
         this.userType = userType;
         this.location = location;
         this.profilePicture = profilePicture;
+        this.events = events;
     }
 
     public Profile (){
@@ -120,6 +125,14 @@ public class Profile {
 
     public void setProfilePicture(byte[] profilePicture) {
         this.profilePicture = profilePicture;
+    }
+
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
     }
 
 }
