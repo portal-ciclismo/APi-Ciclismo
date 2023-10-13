@@ -13,7 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-@Service
+/*@Service
 public class ProfileServiceImpl implements ProfileService {
 
     private final ProfileRepository profileRepository;
@@ -64,7 +64,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public List<ProfileService> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
+    public List<Profile> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
         List<Profile> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado na categoria de ciclismo especificada");
@@ -73,8 +73,7 @@ public class ProfileServiceImpl implements ProfileService {
         }
     }
 
-    @Override
-    public List<ProfileService> getProfilesByUserType(UserType userType) {
+    public List<Profile> getProfilesByUserType(UserType userType) {
         List<Profile> profiles = profileRepository.findByUserType(userType);
         if (profiles.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado para o tipo de usuário especificado");
@@ -120,4 +119,4 @@ public class ProfileServiceImpl implements ProfileService {
                 })
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado no banco de dados"));
     }
-}
+}*/

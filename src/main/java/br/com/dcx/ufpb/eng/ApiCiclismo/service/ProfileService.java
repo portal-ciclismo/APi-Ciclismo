@@ -16,13 +16,13 @@ public interface ProfileService {
 
         public List<Profile> getProfilesByFullName(String fullName);
 
-        public List<ProfileService> getProfilesByNickname(String nickname);
+        public List<Profile> getProfilesByNickname(String nickname);
 
-        public List<ProfileService> getProfilesByCyclingCategory(CyclingCategory cyclingCategory);
+        List<Profile> getProfilesByCyclingCategory(CyclingCategory cyclingCategory);
 
         public List<ProfileService> getProfilesByUserType(UserType userType);
 
-        public List<ProfileService> getProfilesByLocation(String location);
+        public List<Profile> getProfilesByLocation(String location);
 
         public ProfileService updateProfile(Long id, ProfileService updatedProfile);
 
