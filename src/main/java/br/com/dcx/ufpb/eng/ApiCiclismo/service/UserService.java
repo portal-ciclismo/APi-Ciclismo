@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.UserDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EmailNotFoundException;
-import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoudException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
@@ -30,28 +30,28 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public Optional<User> getUserById(Long id) throws UserNotFoudException {
+    public Optional<User> getUserById(Long id) throws UserNotFoundException {
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()) {
-            throw new UserNotFoudException( "User not found.");
+            throw new UserNotFoundException( "User not found.");
         }
         return optionalUser;
     }
 
 
-    public void deleteUser(Long id) throws UserNotFoudException {
+    public void deleteUser(Long id) throws UserNotFoundException {
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()) {
-            throw new UserNotFoudException( "User not found.");
+            throw new UserNotFoundException( "User not found.");
         }
         userRepository.deleteById(id);
     }
 
 
-    public void UpdateUser(Long id, UserDTO userDTO) throws UserNotFoudException {
+    public void UpdateUser(Long id, UserDTO userDTO) throws UserNotFoundException {
         Optional<User> optionalUser = userRepository.findById(id);
         if(optionalUser.isEmpty()) {
-            throw new UserNotFoudException( "User not found.");
+            throw new UserNotFoundException( "User not found.");
         }
         User user = optionalUser.get();
         user.setEmail(userDTO.getEmail());

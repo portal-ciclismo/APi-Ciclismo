@@ -73,6 +73,7 @@ public class Profile {
     public  boolean getCiclistaProfissional(){
         return getCyclingCategory() == CyclingCategory.PROFISSIONAL;
     }
+
     public void setCiclistaProfissional() {
         setCyclingCategory(CyclingCategory.PROFISSIONAL);
     }
