@@ -2,7 +2,6 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.ProfileDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
-import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoudException;
 import org.hibernate.usertype.UserType;

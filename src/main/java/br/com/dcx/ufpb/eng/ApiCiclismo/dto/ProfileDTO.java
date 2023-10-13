@@ -29,4 +29,12 @@ public record ProfileDTO (Long id, UserDTO user, String fullName, String nicknam
         return location;
     }
 
+    public boolean ciclistaProfissional() {
+        return ciclistaProfissional;
+    }
+
+
+    public boolean ciclistaAmador() {
+        return ciclistaAmador;
+    }
 }

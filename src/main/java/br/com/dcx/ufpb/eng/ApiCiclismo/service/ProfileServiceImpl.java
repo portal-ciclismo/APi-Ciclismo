@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class ProfileServiceImpl implements ProfileService {
 
@@ -54,12 +53,25 @@ public class ProfileServiceImpl implements ProfileService {
             throw new ProfileNotFoudException("Profile not found.");
         }
         Profile profile = optionalProfile.get();
+
+        CyclingCategory categoriaAtual = profile.getCyclingCategory();
+
+        if (categoriaAtual == CyclingCategory.AMADOR) {
+            profile.setCiclistaProfissional();
+        } else if (categoriaAtual == CyclingCategory.PROFISSIONAL) {
+            profile.setCiclistaAmador();
+        }else {
+            throw new ProfileNotFoudException("Categoria deve ser AMADOR ou PROFISSIONAL.");
+        }
+
         profile.setFullName(profileDTO.getFullName());
         profile.setNickname(profileDTO.getNickname());
         profile.setSexo(profileDTO.getSexo());
         profile.setLocation(profileDTO.getLocation());
-        profile.setCiclistaProfissional();
-        profile.setCiclistaAmador();
+        //profile.setCiclistaAmador(profileDTO.ciclistaAmador());
+        //profile.setCiclistaProfissional(profileDTO.ciclistaProfissional());
+
+
         profileRepository.save(profile);
     }
 
