@@ -34,5 +34,7 @@ public record ProfileDTO (Long id, UserDTO user, String fullName, String nicknam
         return ciclistaProfissional;
     }
 
+    public void setFullName(String novoNome) {
+    }
 }
 
