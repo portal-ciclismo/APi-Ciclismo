@@ -1,5 +1,6 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.entity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serial;
@@ -18,12 +19,15 @@ public class Bike {
     private Profile profile;
 
     @Size(max = 30)
+    @Column(name = "FRAMEMATERIAL")
     private String frameMaterial;
 
     @Size(max = 30)
+    @Column(name = "FRAMEBRAND")
     private String frameBrand;
 
     @Size(max = 2)
+    @Column(name = "WHEELSIZE")
     private Integer wheelSize;
 
     public Bike(String frameMaterial, String frameBrand, Integer wheelSize) {
