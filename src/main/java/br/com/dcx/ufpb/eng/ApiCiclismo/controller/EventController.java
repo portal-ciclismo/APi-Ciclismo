@@ -21,18 +21,40 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Event>> getAllEvents(){
+    public List<Event> getAllEvents(){
         return eventService.getAllEvents;
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<Event>> getEventByName(@PathVariable String event_name) {
-        return eventService.getEventByName(event_name);
+    public List<Event> getEventByName (@PathVariable String event_name) {
+        return eventService.getByName(event_name);
+    }
+
+    @GetMapping("/{id}")
+    public Event getEventById(@PathVariable Long eventId) {
+        return eventService.findById(eventId);
+    }
+
+    @GetMapping("/{level}")
+    public List<Event> getEventByLevel(@PathVariable String level) {
+        return eventService.getByLevel(level);
     }
 
     @PostMapping
-    public ResponseEntity<Event> save(@RequestBody Event event){
+    public Event save(@RequestBody Event event){
         Event event = eventService.save(event);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateEvent(@PathVariable Long id, @RequestBody EventDTO event) {
+        eventService.updateEvent(id, event);
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEvent(@PathVariable Long id) throws EventNotFoundException {
+        eventService.deleteEvent(id);
     }
 }
