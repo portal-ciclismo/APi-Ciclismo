@@ -1,10 +1,11 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.controller;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Event;
-import br.com.dcx.ufpb.eng.ApiCiclismo.service.EventService;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EventNotFoundException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.service.serviceIMPL.EventService;
+import br.com.dcx.ufpb.eng.ApiCiclismo.dto.EventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,17 +23,17 @@ public class EventController {
 
     @GetMapping
     public List<Event> getAllEvents(){
-        return eventService.getAllEvents;
+        return eventService.getAllEvents();
     }
 
     @GetMapping("/{name}")
     public List<Event> getEventByName (@PathVariable String event_name) {
-        return eventService.getByName(event_name);
+        return eventService.getEventByName(event_name);
     }
 
     @GetMapping("/{id}")
-    public Event getEventById(@PathVariable Long eventId) {
-        return eventService.findById(eventId);
+    public Event getEventById(@PathVariable Long eventId) throws EventNotFoundException {
+        return eventService.getEventById(eventId);
     }
 
     @GetMapping("/{level}")
@@ -42,19 +43,18 @@ public class EventController {
 
     @PostMapping
     public Event save(@RequestBody Event event){
-        Event event = eventService.save(event);
-        return new ResponseEntity<>(event, HttpStatus.CREATED);
+        return eventService.saveEvent(event);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateEvent(@PathVariable Long id, @RequestBody EventDTO event) {
-        eventService.updateEvent(id, event);
+    public void updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) throws EventNotFoundException {
+        eventService.updateEvent(id, eventDTO);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteEvent(@PathVariable Long id) throws EventNotFoundException {
+    public void deleteEvent(@PathVariable Long id) {
         eventService.deleteEvent(id);
     }
 }

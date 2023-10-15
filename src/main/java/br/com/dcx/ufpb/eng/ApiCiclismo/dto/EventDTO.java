@@ -1,11 +1,10 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.dto;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
 
-public record EventDTO(String name, String description, String location, String date, String time, String duration, String distance, String difficulty, String route, String type, String group, String creator, List<Profile> participants) {
+public record EventDTO(String name, String description, String startLocation, String endLocation, String date, String time, String level, List<Profile> participants, String speed) {
 
     public String getName(){
         return name;
@@ -15,11 +14,15 @@ public record EventDTO(String name, String description, String location, String 
         return description;
     }
 
-    public String getLocation(){
-        return location;
+    public String getStartLocation(){
+        return startLocation;
     }
 
-    public LocalDateTime getDate(){
+    public String getEndLocation(){
+        return endLocation;
+    }
+
+    public String getDate(){
         return date;
     }
 
@@ -27,32 +30,13 @@ public record EventDTO(String name, String description, String location, String 
         return time;
     }
 
-    public String getDuration(){
-        return duration;
+
+    public String getLevel(){
+        return level;
     }
 
-    public String getDistance(){
-        return distance;
-    }
-
-    public String getDifficulty(){
-        return difficulty;
-    }
-
-    public String getRoute(){
-        return route;
-    }
-
-    public String getType(){
-        return type;
-    }
-
-    public String getGroup(){
-        return group;
-    }
-
-    public String getCreator(){
-        return creator;
+    public String getSpeed(){
+        return speed;
     }
 
     public List<Profile> getParticipants(){
