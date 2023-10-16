@@ -34,5 +34,9 @@ public record ProfileDTO (Long id, UserDTO user, String fullName, String nicknam
         return ciclistaProfissional;
     }
 
+    public CyclingCategory getCyclingCategory() {
+        return cyclingCategory;
+    }
+
 }
 

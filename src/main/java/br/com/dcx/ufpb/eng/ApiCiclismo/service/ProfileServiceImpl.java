@@ -55,13 +55,16 @@ public class ProfileServiceImpl implements ProfileService {
         Profile profile = optionalProfile.get();
 
         CyclingCategory categoriaAtual = profile.getCyclingCategory();
-        if (categoriaAtual == CyclingCategory.AMADOR) {
-            profile.setCiclistaProfissional();
-        } else if (categoriaAtual == CyclingCategory.PROFISSIONAL) {
-            profile.setCiclistaAmador();
-        }else {
-            throw new ProfileNotFoundException("Categoria deve ser AMADOR ou PROFISSIONAL.");
+        CyclingCategory novaCategoria = profileDTO.getCyclingCategory();
+
+        if (categoriaAtual != novaCategoria){
+            if (novaCategoria == CyclingCategory.AMADOR) {
+                profile.setCiclistaAmador();
+            } else if (novaCategoria == CyclingCategory.PROFISSIONAL) {
+                profile.setCiclistaProfissional();
+            }
         }
+
         profile.setFullName(profileDTO.getFullName());
         profile.setNickname(profileDTO.getNickname());
         profile.setSexo(profileDTO.getSexo());
