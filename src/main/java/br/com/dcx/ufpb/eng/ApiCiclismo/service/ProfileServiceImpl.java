@@ -1,122 +1,93 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
-
+import br.com.dcx.ufpb.eng.ApiCiclismo.dto.ProfileDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoundException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.ProfileRepository;
 import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-/*@Service
+@Service
 public class ProfileServiceImpl implements ProfileService {
 
-    private final ProfileRepository profileRepository;
+
+    private ProfileRepository profileRepository;
 
     @Autowired
     public ProfileServiceImpl(ProfileRepository profileRepository) {
         this.profileRepository = profileRepository;
     }
 
-    @Transactional
-    public ProfileService createProfile(ProfileService profile) {
+    public List<Profile> getProfiles() {
+        return profileRepository.findAll();
+    }
+
+    public Profile saveProfile(Profile profile) {
         return profileRepository.save(profile);
     }
 
-    @Override
-    public ProfileService saveProfile(ProfileService profile) {
-        return null;
+    public Optional<Profile> getProfileById(Long id) throws ProfileNotFoundException {
+        Optional<Profile> optionalProfile = profileRepository.findById(id);
+        if (optionalProfile.isEmpty()) {
+            throw new ProfileNotFoundException("Profile not found.");
+        }
+        return optionalProfile;
     }
 
-    public Profile getProfileById(Long id) {
-        return profileRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB"));
+    public void deleteProfile(Long id) throws ProfileNotFoundException {
+        Optional<Profile> optionalProfile = profileRepository.findById(id);
+        if (optionalProfile.isEmpty()) {
+            throw new ProfileNotFoundException("Profile not found.");
+        }
+        profileRepository.deleteById(id);
     }
+  
+    public void updateProfile(Long id, ProfileDTO profileDTO) throws ProfileNotFoundException {
+        Optional<Profile> optionalProfile = profileRepository.findById(id);
+        if (optionalProfile.isEmpty()) {
+            throw new ProfileNotFoundException("Profile not found.");
+        }
+        Profile profile = optionalProfile.get();
 
-    
-    @Transactional
-    public void deleteProfile(Long id) {
-        profileRepository.findById(id).ifPresentOrElse(
-            userFind -> profileRepository.delete(userFind),
-            () -> { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB"); }
-        );
+        CyclingCategory categoriaAtual = profile.getCyclingCategory();
+        CyclingCategory novaCategoria = profileDTO.getCyclingCategory();
+
+        if (categoriaAtual != novaCategoria){
+            if (novaCategoria == CyclingCategory.AMADOR) {
+                profile.setCiclistaAmador();
+            } else if (novaCategoria == CyclingCategory.PROFISSIONAL) {
+                profile.setCiclistaProfissional();
+            }
+        }
+
+        profile.setFullName(profileDTO.getFullName());
+        profile.setNickname(profileDTO.getNickname());
+        profile.setSexo(profileDTO.getSexo());
+        profile.setLocation(profileDTO.getLocation());
+        profileRepository.save(profile);
     }
 
     public List<Profile> getProfilesByFullName(String fullName) {
-        List<Profile> profiles = profileRepository.findByFullName(fullName);
-        if (profiles.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
-        }
-        return profiles;
+        return profileRepository.findByFullName(fullName);
     }
 
-    public List<ProfileService> getProfilesByNickname(String nickname) {
-        List<Profile> profiles = profileRepository.getProfilesByNickname(nickname);
-        if (profiles.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
-        }
-        return profile;
+    public List<Profile> getProfilesByNickname(String nickname) {
+        return profileRepository.findByNickname(nickname);
     }
 
-    @Override
     public List<Profile> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
-        List<Profile> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
-        if (profiles.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado na categoria de ciclismo especificada");
-        } else {
-            return profile;
-        }
+        return profileRepository.findByCyclingCategory(cyclingCategory);
     }
 
     public List<Profile> getProfilesByUserType(UserType userType) {
-        List<Profile> profiles = profileRepository.findByUserType(userType);
-        if (profiles.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Nenhum perfil encontrado para o tipo de usuário especificado");
-        }
-        return profile;
+        return null;
     }
 
-    public List<ProfileService> getProfilesByCyclingCategory(CyclingCategory cyclingCategory) {
-        List<Profile> profiles = profileRepository.findByCyclingCategory(cyclingCategory);
-        if (profiles.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
-        }
-        return profile;
+    public List<Profile> getProfilesByLocation(String location) {
+        return profileRepository.findByLocation(location);
     }
-
-    public List<ProfileService> getProfilesByUserType(UserType userType) {
-        List<Profile> profiles = profileRepository.findByUserType(userType);
-        if (profiles.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
-        }
-        return profile;
-    }
-
-    public List<ProfileService> getProfilesByLocation(String location) {
-        List<Profile> profiles = profileRepository.getProfilesByLocation(location);
-        if (profiles.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Profile not found in DB");
-        }
-
-        return profile;
-    }
-
-    @Transactional
-    public ProfileService updateProfile(Long id, ProfileService updatedProfile) {
-        return profileRepository.findById(id)
-                .map(existingProfile -> {
-                    existingProfile.setFullName(updatedProfile.getFullName());
-                    existingProfile.setNickname(updatedProfile.getNickname());
-                    existingProfile.setCyclingCategory(updatedProfile.getCyclingCategory());
-                    existingProfile.setUserType(updatedProfile.getUserType());
-                    existingProfile.setLocation(updatedProfile.getLocation());
-                    return profileRepository.save(existingProfile);
-                })
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Perfil não encontrado no banco de dados"));
-    }
-}*/
+}
