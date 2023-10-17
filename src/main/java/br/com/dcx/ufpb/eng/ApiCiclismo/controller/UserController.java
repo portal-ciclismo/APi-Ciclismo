@@ -2,10 +2,13 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.controller;
 
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.UserDTO;
+import br.com.dcx.ufpb.eng.ApiCiclismo.entity.EmailModel;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.User;
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EmailNotFoundException;
 
+
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoundException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.service.EmailService;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,8 +24,12 @@ public class UserController {
     @Autowired
     UserService usuarioService;
 
-    public UserController(UserService usuarioService) {
+    @Autowired
+    EmailService emailService;
+
+    public UserController(UserService usuarioService, EmailService emailService) {
         this.usuarioService = usuarioService;
+        this.emailService = emailService;
     }
 
     @GetMapping()
@@ -34,6 +41,7 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public User saveUser(@RequestBody User user) {
+        emailService.sendEmail(new EmailModel(), user);
         return usuarioService.saveUser(user);
     }
 
