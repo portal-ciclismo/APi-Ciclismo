@@ -1,3 +1,4 @@
+
 CREATE TABLE User (
     ID INT PRIMARY KEY AUTO_INCREMENT,
     LOGIN VARCHAR(35) NOT NULL,
@@ -16,4 +17,4 @@ CREATE TABLE Profile(
     SEX CHAR(1) NOT NULL,
     FOREIGN KEY (USER_ID) REFERENCES User(ID)
 );
--- Tabela Grupos tem que ser CyclistGroup
+

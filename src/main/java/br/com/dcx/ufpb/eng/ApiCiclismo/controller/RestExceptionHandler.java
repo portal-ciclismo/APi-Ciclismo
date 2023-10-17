@@ -1,7 +1,7 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.controller;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ApiErros;
-import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoudException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +20,10 @@ public class RestExceptionHandler {
         return new ApiErros(msgErro);
     }
 
-    @ExceptionHandler(UserNotFoudException.class)
+    @ExceptionHandler(UserNotFoundException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ApiErros handUserNotFoudExceptions(UserNotFoudException ex){
+    public ApiErros handUserNotFoudExceptions(UserNotFoundException ex){
         String msgErro = ex.getMessage();
         return new ApiErros(msgErro);
     }
