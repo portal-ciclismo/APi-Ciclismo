@@ -2,6 +2,19 @@ server:
   port: 8080
 
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ciclismocamelo@gmail.com
+    password: luigunfrkvkubjeg
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
   profile:
     active:
       - prod
@@ -29,3 +42,6 @@ flyway:
 springdoc:
   swagger-ui:
     config-url: /swagger-config.json
+
+
+
