@@ -1,3 +1,4 @@
+-- V3__Create_Profile_Table.sql
 CREATE TABLE Profile(
     ID bigint PRIMARY KEY AUTO_INCREMENT,
     USER_ID bigint NOT NULL,
