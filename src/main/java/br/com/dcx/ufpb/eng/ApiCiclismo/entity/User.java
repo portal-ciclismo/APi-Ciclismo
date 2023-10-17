@@ -4,9 +4,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import java.io.Serial;
 
-
-
-@Entity(name = "User")
+@Table(name = "User")
+@Entity
 public class User  {
     @Serial
     private static final long serialVersionUID = 1L;
@@ -16,17 +15,12 @@ public class User  {
     @Column(name = "ID")
     private Long id;
 
-
     @Column(name = "EMAIL", unique = true)
     @NotBlank(message = "Email cannot be empty/null")
     private String email;
-
-
     @Column(name = "PASSWORD")
     @NotEmpty(message = "Password cannot be empty")
     private String password;
-
-
 
     public User( String password, String email) {
         this.password = password;
@@ -51,7 +45,6 @@ public class User  {
     public void setEmail(String email) {
         this.email = email;
     }
-
 
     public void setPassword(String password) {
             this.password = password;
