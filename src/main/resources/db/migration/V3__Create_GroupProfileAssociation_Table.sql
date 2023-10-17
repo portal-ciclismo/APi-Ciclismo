@@ -1,4 +1,4 @@
--- V4__Create_GroupProfileAssociation_Table.sql
+-- V5__Create_GroupProfileAssociation_Table.sql
 CREATE TABLE GroupProfileAssociation (
     GROUP_ID INT NOT NULL,
     USER_ID INT NOT NULL,
