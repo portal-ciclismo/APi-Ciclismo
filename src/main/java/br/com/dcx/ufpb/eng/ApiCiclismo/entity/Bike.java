@@ -15,19 +15,19 @@ public class Bike {
     @Column(name = "ID")
     private Long id;
 
-    @OneToOne(mappedBy = "bike")
-    private Profile profile;
+    /*@OneToOne(mappedBy = "bike")
+    private Profile profile;*/ //TEM QUE SER MAPEADO NA ENTIDADE PROFILE TAMBÉM
 
     @Size(max = 30)
-    @Column(name = "FRAMEMATERIAL")
+    @Column(name = "FRAME_MATERIAL")
     private String frameMaterial;
 
     @Size(max = 30)
-    @Column(name = "FRAMEBRAND")
+    @Column(name = "FRAME_BRAND")
     private String frameBrand;
 
     @Size(max = 2)
-    @Column(name = "WHEELSIZE")
+    @Column(name = "WHEEL_SIZE")
     private Integer wheelSize;
 
     public Bike(String frameMaterial, String frameBrand, Integer wheelSize) {
