@@ -37,5 +37,8 @@ public record ProfileDTO (Long id, UserDTO user, String fullName, String nicknam
     public void setFullName(String novoNome) {
     }
 
+    public CyclingCategory getCyclingCategory() {
+        return cyclingCategory;
+    }
 }
 
