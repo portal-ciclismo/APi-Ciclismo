@@ -42,7 +42,7 @@ public class Profile {
     @Column(name = "LOCALITY")
     private String location;
 
-
+        public Profile(){
         this.fullName = fullName;
         this.nickname = nickname;
         this.sexo = sexo;
