@@ -4,7 +4,6 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
 import java.util.List;
 
 @Entity
@@ -43,22 +42,12 @@ public class Profile {
     @Column(name = "LOCALITY")
     private String location;
 
-//    @Lob
-//    @Column(name = "PROFILEPICTURE")
-//    private byte[] profilePicture;
 
-    public Profile (){
-    }
-    public Profile(Long id, String fullName, String nickname, String sexo, CyclingCategory cyclingCategory,
-                   String location, byte[] profilePicture, User user) {
-        this.id = id;
         this.fullName = fullName;
         this.nickname = nickname;
         this.sexo = sexo;
         this.cyclingCategory = cyclingCategory;
         this.location = location;
-        //this.profilePicture = profilePicture;
-        this.user = user;
     }
 
 
@@ -144,6 +133,5 @@ public class Profile {
         this.user = user;
     }
 
-    public void setUserType(List<Profile> profilesByUserType) {
-    }
+
 }
