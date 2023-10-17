@@ -8,6 +8,7 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.exception.EmailNotFoundException;
 
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.UserNotFoundException;
+import br.com.dcx.ufpb.eng.ApiCiclismo.service.EmailService;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
