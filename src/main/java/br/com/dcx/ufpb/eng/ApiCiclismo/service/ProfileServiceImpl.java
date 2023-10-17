@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -46,7 +45,7 @@ public class ProfileServiceImpl implements ProfileService {
         }
         profileRepository.deleteById(id);
     }
-
+  
     public void updateProfile(Long id, ProfileDTO profileDTO) throws ProfileNotFoundException {
         Optional<Profile> optionalProfile = profileRepository.findById(id);
         if (optionalProfile.isEmpty()) {
@@ -87,7 +86,6 @@ public class ProfileServiceImpl implements ProfileService {
     public List<Profile> getProfilesByUserType(UserType userType) {
         return null;
     }
-
 
     public List<Profile> getProfilesByLocation(String location) {
         return profileRepository.findByLocation(location);
