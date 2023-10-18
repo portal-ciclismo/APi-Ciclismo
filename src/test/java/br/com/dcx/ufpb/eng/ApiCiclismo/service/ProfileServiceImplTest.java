@@ -6,6 +6,7 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
 import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoundException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.ProfileRepository;
+import br.com.dcx.ufpb.eng.ApiCiclismo.service.serviceIMPL.ProfileServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
