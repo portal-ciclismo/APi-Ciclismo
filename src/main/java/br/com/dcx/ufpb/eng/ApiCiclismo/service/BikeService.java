@@ -14,5 +14,4 @@ public interface BikeService {
     Integer getWheelSize(Long id);
     String getFrameBrand(Long id);
     String getFrameMaterial(Long id);
-
 }
