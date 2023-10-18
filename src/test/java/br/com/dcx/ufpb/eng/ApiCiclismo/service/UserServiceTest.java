@@ -1,6 +1,5 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
-import br.com.dcx.ufpb.eng.ApiCiclismo.service.serviceIMPL.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
