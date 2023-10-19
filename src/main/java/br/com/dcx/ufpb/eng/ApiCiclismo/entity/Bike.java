@@ -26,7 +26,6 @@ public class Bike {
     @Column(name = "FRAME_BRAND")
     private String frameBrand;
 
-    @Size(max = 2)
     @Column(name = "WHEEL_SIZE")
     private Integer wheelSize;
 

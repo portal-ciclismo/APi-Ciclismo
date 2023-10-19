@@ -14,17 +14,16 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/bike")
 public class BikeController {
-
+    @Autowired
     private BikeService bikeService;
 
-    @Autowired
     public BikeController(BikeService bikeService){
         this.bikeService = bikeService;
     }
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    public List<Bike>getBikes(){
+    public List<Bike> getBikes(){
         return bikeService.getAllBikes();
     }
 
@@ -34,25 +33,25 @@ public class BikeController {
         return bikeService.saveBike(bike);
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Optional<Bike> getBikeById(@PathVariable Long id) throws BikeNotFoundException {
         return bikeService.getBikeById(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("wheelSize/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Integer getWheelSize(@PathVariable Long id) throws BikeNotFoundException {
         return bikeService.getWheelSize(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("frameBrand/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String getFrameBrand(@PathVariable Long id) throws BikeNotFoundException {
         return bikeService.getFrameBrand(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("frameMaterial/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String getFrameMaterial(@PathVariable Long id) throws BikeNotFoundException {
         return bikeService.getFrameMaterial(id);
@@ -66,8 +65,8 @@ public class BikeController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteBike(@PathVariable Long id, @RequestBody BikeDTO bikeDTO)throws BikeNotFoundException {
-        bikeService.updateBike(id, bikeDTO);
+    public void deleteBike(@PathVariable Long id)throws BikeNotFoundException {
+        bikeService.deleteBike(id);
     }
 //
 }
