@@ -6,10 +6,12 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.exception.BikeNotFoundException;
 import br.com.dcx.ufpb.eng.ApiCiclismo.repositories.BikeRepository;
 import br.com.dcx.ufpb.eng.ApiCiclismo.service.BikeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class BikeServiceimpl implements BikeService {
 
     private BikeRepository bikeRepository;
