@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/bike")
+@CrossOrigin(origins = "http://localhost:4200")
 public class BikeController {
 
     private BikeService bikeService;
