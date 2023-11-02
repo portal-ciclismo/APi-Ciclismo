@@ -4,7 +4,6 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import java.util.List;
 
 @Entity
 @Table(name = "Profile")
@@ -14,7 +13,7 @@ public class Profile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID", nullable = false)
     private User user;
 
@@ -32,7 +31,6 @@ public class Profile {
     @Column(name = "SEX")
     private String sexo;
 
-
     @Enumerated(EnumType.STRING)
     @Column(name = "CATEGORY")
     private CyclingCategory cyclingCategory;
@@ -42,7 +40,12 @@ public class Profile {
     @Column(name = "LOCALITY")
     private String location;
 
-        public Profile(){
+    @Lob
+    @Column(name = "PROFILE_PICTURE", length = 100000)
+    private byte[] profilePicture;
+
+
+    public Profile(){
         this.fullName = fullName;
         this.nickname = nickname;
         this.sexo = sexo;
@@ -117,13 +120,6 @@ public class Profile {
         this.location = location;
     }
 
-//    public byte[] getProfilePicture() {
-//        return profilePicture;
-//    }
-//
-//    public void setProfilePicture(byte[] profilePicture) {
-//        this.profilePicture = profilePicture;
-//    }
 
     public User getUser() {
         return user;
@@ -133,5 +129,11 @@ public class Profile {
         this.user = user;
     }
 
+    public byte[] getProfilePicture() {
+        return profilePicture;
+    }
 
+    public void setProfilePicture(byte[] profilePicture) {
+        this.profilePicture = profilePicture;
+    }
 }

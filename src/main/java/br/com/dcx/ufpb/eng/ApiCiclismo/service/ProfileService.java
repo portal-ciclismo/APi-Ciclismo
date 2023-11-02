@@ -2,10 +2,8 @@ package br.com.dcx.ufpb.eng.ApiCiclismo.service;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.dto.ProfileDTO;
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
-import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 import br.com.dcx.ufpb.eng.ApiCiclismo.exception.ProfileNotFoundException;
-import org.hibernate.usertype.UserType;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,22 +11,16 @@ public interface ProfileService {
 
     public Profile saveProfile(Profile profile);
 
-    public List<Profile> getProfiles();
+    List<Profile> getProfiles();
+    Optional<Profile> getProfileById(Long id) throws ProfileNotFoundException;
 
-    public Optional<Profile> getProfileById(Long id) throws ProfileNotFoundException;
+    void updateProfile (Long id, ProfileDTO profileDTO)throws ProfileNotFoundException;
 
-    public void updateProfile (Long id, ProfileDTO profileDTO)throws ProfileNotFoundException;
+    void deleteProfile(Long id) throws ProfileNotFoundException;
 
-    public void deleteProfile(Long id) throws ProfileNotFoundException;
+    Optional<Profile> getProfileByFullName(String fullName) throws ProfileNotFoundException;
 
-    public List<Profile> getProfilesByFullName(String fullName);
+    void uploadProfilePicture(Long id, MultipartFile file) throws ProfileNotFoundException;
 
-    public List<Profile> getProfilesByNickname(String nickname);
-
-    public List<Profile> getProfilesByCyclingCategory(CyclingCategory cyclingCategory);
-
-    public List<Profile> getProfilesByUserType(UserType userType);
-
-    public List<Profile> getProfilesByLocation(String location);
-
+    byte[] getProfilePicture(Long id) throws ProfileNotFoundException;
 }

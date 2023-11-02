@@ -1,20 +1,13 @@
 package br.com.dcx.ufpb.eng.ApiCiclismo.repositories;
 
 import br.com.dcx.ufpb.eng.ApiCiclismo.entity.Profile;
-import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProfileRepository extends JpaRepository<Profile,Long> {
+    Optional<Profile> findByFullName(String fullName);
 
-    List<Profile> findByFullName(String fullName);
-
-    List<Profile> findByNickname(String nickname);
-
-    List<Profile> findByCyclingCategory(CyclingCategory cyclingCategory);
-
-    List<Profile> findByLocation(String location);
 }
