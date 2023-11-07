@@ -1,0 +1,14 @@
+name: Deploy Ciclismo Application
+
+on:
+    push:
+        branches:
+            - main
+            - CriandoActionsDeploy
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
