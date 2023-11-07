@@ -1,4 +1,4 @@
-FROM eclipse-temurin:17-openjdk-alpine
+FROM eclipse-temurin:17
 WORKDIR /app
 COPY target/Api-Ciclismo-1.0.0.jar Api-Ciclismo-1.0.0.jar
 EXPOSE 8080
