@@ -23,6 +23,6 @@ jobs:
             - name: Login Docker Hub
               run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p '${{secrets.DOCKERHUB_PASSWORD}}'
             - name: Build Docker Image
-              run: docker build -t ryanjorgeac/api-Ciclismo .
+              run: docker build -t ryanjorgeac/api-ciclismo .
             - name: Push Docker Image
-              run: docker push ryanjorgeac/api-Ciclismo
+              run: docker push ryanjorgeac/api-ciclismo
