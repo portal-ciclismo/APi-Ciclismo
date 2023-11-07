@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.dcx.ufpb.eng</groupId>
-	<artifactId>Api-Ciclismo </artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>Api-Ciclismo </name>
+	<artifactId>Api-Ciclismo</artifactId>
+	<version>1.0.0</version>
+	<name>Api-Ciclismo</name>
 	<description>Api criada para projeto</description>
 	<properties>
 		<java.version>17</java.version>
