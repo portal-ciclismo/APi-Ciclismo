@@ -26,3 +26,12 @@ jobs:
               run: docker build -t ryanjorgeac/api-ciclismo .
             - name: Push Docker Image
               run: docker push ryanjorgeac/api-ciclismo
+  
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Application Image from Docker Hub
+        run: docker pull ryanjorgeac/api-ciclismo:latest
+      - name: Run Docker Container
+        run: docker run -d -p 8080:8080 --name deploy-api-ciclismo ryanjorgeac/api-ciclismo
