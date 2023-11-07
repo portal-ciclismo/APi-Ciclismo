@@ -1,0 +1,6 @@
+name: Deploy Ciclismo Application
+
+on:
+    push:
+        branches:
+            - main
