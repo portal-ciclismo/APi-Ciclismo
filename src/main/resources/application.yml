@@ -20,9 +20,9 @@ spring:
       - prod
 
   datasource:
-    url: jdbc:mysql://localhost/db_ciclismo?useTimezone=true&serverTimezone=UTC
-    username: root
-    password: 200622pmr
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?useTimezone=true&serverTimezone=UTC
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
