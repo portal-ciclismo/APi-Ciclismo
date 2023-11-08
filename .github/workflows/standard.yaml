@@ -28,7 +28,7 @@ jobs:
               run: docker push ryanjorgeac/api-ciclismo
   
     deploy:
-        - name: Deploy Application
+        name: Deploy Application
         needs: build
         runs-on: self-hosted
         steps:
