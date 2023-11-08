@@ -20,7 +20,7 @@ spring:
       - prod
 
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://${DB_HOST}/${DB_DATABASE}?useTimezone=true&serverTimezone=UTC
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
