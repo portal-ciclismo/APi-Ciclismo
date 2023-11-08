@@ -35,8 +35,5 @@ jobs:
       - name: Remove Remaining Container
         run: docker rm -f deploy-api-ciclismo
       - name: Run Docker Container
-        run: docker run -d -p 8080:8080 \ -e DB_USERNAME=${{secrets.DB_USERNAME}} \ -e
-          DB_PASSWORD='${{secrets.DB_PASSWORD}}' \ -e
-          DB_HOST=${{secrets.DB_HOST}} \ -e DB_PORT=${{secrets.DB_PORT}} \ -e
-          DB_DATABASE=${{secrets.DB_DATABASE}} \ --name deploy-api-ciclismo
-          ryanjorgeac/api-ciclismo
+        run: docker run -d -p 8080:8080 -e DB_USERNAME=${{secrets.DB_USERNAME}} -e DB_PASSWORD='${{secrets.DB_PASSWORD}}' -e DB_HOST=${{secrets.DB_HOST}} -e DB_PORT=${{secrets.DB_PORT}} -e DB_DATABASE=${{secrets.DB_DATABASE}} --name deploy-api-ciclismo ryanjorgeac/api-ciclismo
+        
