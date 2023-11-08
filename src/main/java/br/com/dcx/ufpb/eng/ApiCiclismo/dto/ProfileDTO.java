@@ -4,7 +4,6 @@ import br.com.dcx.ufpb.eng.ApiCiclismo.enums.CyclingCategory;
 
 public record ProfileDTO (Long id, UserDTO user, String fullName, String nickname, String sexo, CyclingCategory cyclingCategory, String location, boolean ciclistaProfissional, boolean ciclistaAmador){
 
-
     public UserDTO user() {
         return user;
     }
@@ -12,7 +11,6 @@ public record ProfileDTO (Long id, UserDTO user, String fullName, String nicknam
     public String getFullName() {
         return fullName;
     }
-
     public String getNickname() {
         return nickname;
     }
@@ -21,17 +19,8 @@ public record ProfileDTO (Long id, UserDTO user, String fullName, String nicknam
         return sexo;
     }
 
-    public CyclingCategory cyclingCategory() {
-        return cyclingCategory;
-    }
-
     public String getLocation() {
         return location;
-    }
-
-
-    public boolean ciclistaProfissional() {
-        return ciclistaProfissional;
     }
 
     public void setFullName(String novoNome) {
