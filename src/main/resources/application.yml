@@ -34,10 +34,10 @@ api:
       secret: ${JWT_SECRET:chaveBolada}
 
 flyway:
-  url: jdbc:mysql://localhost:3306/
-  schemas: db_ciclismo
-  user: root
-  password: 200622pmr
+  url: jdbc:mysql://${DB_HOST}:${DB_PORT}/
+  schemas: ${DB_DATABASE}
+  user: ${DB_USERNAME}
+  password: ${DB_PASSWORD}
 
 springdoc:
   swagger-ui:
