@@ -1,44 +1,42 @@
 name: Deploy Ciclismo Application
-
 on:
-    push:
-        branches:
-            - main
-            - CriandoActionsDeploy
-
+  push:
+    branches:
+      - main
+      - CriandoActionsDeploy
 jobs:
-    build:
-        name: Build Application
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-            - name: Setup Java
-              uses: actions/setup-java@v3
-              with:
-                distribution: 'temurin'
-                java-version: '17'
-            - name: Build Project
-              run: mvn clean install -DskipTests
-            - name: Login Docker Hub
-              run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p '${{secrets.DOCKERHUB_PASSWORD}}'
-            - name: Build Docker Image
-              run: docker build -t ryanjorgeac/api-ciclismo .
-            - name: Push Docker Image
-              run: docker push ryanjorgeac/api-ciclismo
-  
-    deploy:
-        name: Deploy Application
-        needs: build
-        runs-on: self-hosted
-        steps:
-          - name: Pull Application Image from Docker Hub
-            run: docker pull ryanjorgeac/api-ciclismo:latest
-          - name: Run Docker Container
-            run: docker run -d -p 8080:8080 \
-              -e DB_USERNAME=${{secrets.DB_USERNAME}} \
-              -e DB_PASSWORD='${{secrets.DB_PASSWORD}}' \
-              -e DB_HOST=${{secrets.DB_HOST}} \
-              -e DB_PORT=${{secrets.DB_PORT}} \
-              -e DB_DATABASE=${{secrets.DB_DATABASE}} \
-              --name deploy-api-ciclismo ryanjorgeac/api-ciclismo
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Build Project
+        run: mvn clean install -DskipTests
+      - name: Login Docker Hub
+        run: docker login -u ${{secrets.DOCKERHUB_USERNAME}} -p
+          '${{secrets.DOCKERHUB_PASSWORD}}'
+      - name: Build Docker Image
+        run: docker build -t ryanjorgeac/api-ciclismo .
+      - name: Push Docker Image
+        run: docker push ryanjorgeac/api-ciclismo
+  deploy:
+    name: Deploy Application
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull Application Image from Docker Hub
+        run: docker pull ryanjorgeac/api-ciclismo:latest
+      - name: Remove Remaining Container
+        run: docker rm -f deploy-api-ciclismo
+      - name: Run Docker Container
+        run: docker run -d -p 8080:8080 \ -e DB_USERNAME=${{secrets.DB_USERNAME}} \ -e
+          DB_PASSWORD='${{secrets.DB_PASSWORD}}' \ -e
+          DB_HOST=${{secrets.DB_HOST}} \ -e DB_PORT=${{secrets.DB_PORT}} \ -e
+          DB_DATABASE=${{secrets.DB_DATABASE}} \ --name deploy-api-ciclismo
+          ryanjorgeac/api-ciclismo
