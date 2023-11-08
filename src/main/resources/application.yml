@@ -20,9 +20,9 @@ spring:
       - prod
 
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_DATABASE}?useTimezone=true&serverTimezone=UTC
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://${DB_HOST:localhost}/${DB_DATABASE:db_ciclismo}?useTimezone=true&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD:200622pmr}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -34,10 +34,10 @@ api:
       secret: ${JWT_SECRET:chaveBolada}
 
 flyway:
-  url: jdbc:mysql://${DB_HOST}:${DB_PORT}/
-  schemas: ${DB_DATABASE}
-  user: ${DB_USERNAME}
-  password: ${DB_PASSWORD}
+  url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/
+  schemas: ${DB_DATABASE:db_ciclismo}
+  user: ${DB_USERNAME:root}
+  password: ${DB_PASSWORD:200622pmr}
 
 springdoc:
   swagger-ui:

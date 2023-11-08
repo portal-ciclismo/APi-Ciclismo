@@ -1,5 +1,5 @@
 FROM eclipse-temurin:17
 WORKDIR /app
-COPY target/Api-Ciclismo-1.0.0.jar Api-Ciclismo-1.0.0.jar
+COPY target/Api-Ciclismo-1.0.0.jar Api-Ciclismo-1.0.0-Final.jar
 EXPOSE 8080
 CMD ["java", "-jar", "Api-Ciclismo-1.0.0.jar"]
